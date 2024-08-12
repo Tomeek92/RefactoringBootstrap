@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using CleanArchitectureBlazor.Domain.Admin;
+﻿using CleanArchitectureBlazor.Domain.Admin;
 using CleanArchitectureBlazor.Domain.NewsLetterEmails;
 using CleanArchitectureBlazor.Domain.Price_Training;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace CleanArchitectureBlazor.Infrastructure.Database
 {
-   public class CleanArchitectureBlazorDbContext : DbContext
+    public class CleanArchitectureBlazorDbContext : DbContext
     {
         public CleanArchitectureBlazorDbContext(DbContextOptions<CleanArchitectureBlazorDbContext> options) : base(options) { }
 
