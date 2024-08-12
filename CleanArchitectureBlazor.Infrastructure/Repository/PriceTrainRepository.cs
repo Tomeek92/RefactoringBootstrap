@@ -1,13 +1,12 @@
-﻿using CleanArchitectureBlazor.Domain.NewsLetterEmails;
-using CleanArchitectureBlazor.Domain.Price_Training;
+﻿using CleanArchitectureBlazor.Domain.Price_Training;
 using CleanArchitectureBlazor.Infrastructure.Database;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
-    public class PriceRepository
+    public class PriceTrainRepository
     {
         private readonly CleanArchitectureBlazorDbContext _context;
-        public PriceRepository(CleanArchitectureBlazorDbContext context)
+        public PriceTrainRepository(CleanArchitectureBlazorDbContext context)
         {
             _context = context;
         }
@@ -16,11 +15,32 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
             try
             {
                 var findId = await _context.FindAsync<Train>(id);
+                if (findId == null)
+                {
+                    throw new KeyNotFoundException($"Rekord o podanym {id} nie został znaleziony");
+                }
                 return findId;
             }
             catch (Exception ex)
             {
                 throw new Exception($"Błąd przy pobieraniu z bazy danych rekordu", ex);
+            }
+        }
+        public async Task Delete(Guid id)
+        {
+            try
+            {
+                var findId = GetById(id);
+                if (findId == null)
+                {
+                    throw new KeyNotFoundException($"Nie znaleziono rekordu o podanyn {id}");
+                }
+               _context.Remove(findId);
+                await _context.SaveChangesAsync();
+            }
+            catch
+            {
+                throw new InvalidOperationException($"Nie udało się usunąć rekordu");
             }
         }
         public async Task Update(Guid id,Train updated)

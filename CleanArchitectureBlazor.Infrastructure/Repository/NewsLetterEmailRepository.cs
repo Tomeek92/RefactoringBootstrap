@@ -43,11 +43,12 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
                 {
                     throw new KeyNotFoundException($"Rekord o danym {id} nie został znaleziony ");
                 }
-                await _context.SaveChangesAsync();
+                    _context.Remove(findEmail);
+                    await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Błąd przy usuwaniu rekordu o podanym ID {id}", ex);
+                throw new InvalidOperationException($"Błąd przy usuwaniu rekordu o podanym ID {id}", ex);
             }           
         }
 
