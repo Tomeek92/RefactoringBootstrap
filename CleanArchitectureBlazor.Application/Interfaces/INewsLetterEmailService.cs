@@ -7,6 +7,6 @@ namespace CleanArchitectureBlazor.Application.Interfaces
     {
         Task Create(NewsLetterEmailDto email);
         Task Delete(Guid Id);
-        Task<NewsLetterEmail> GetById(Guid id);
+        Task<NewsLetterEmailDto> GetById(Guid id);
     }
 }

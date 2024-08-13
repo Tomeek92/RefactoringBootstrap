@@ -26,7 +26,7 @@ namespace CleanArchitectureBlazor.API.Controllers
             await _newsLetterEmailService.Delete(id);
         }
         [HttpGet("{id}")]
-        public async Task<NewsLetterEmail> GetById(Guid id)
+        public async Task<NewsLetterEmailDto> GetById(Guid id)
         {
            var findId = await _newsLetterEmailService.GetById(id);
            return findId;
