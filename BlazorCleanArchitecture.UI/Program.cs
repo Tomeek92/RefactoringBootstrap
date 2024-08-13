@@ -1,5 +1,5 @@
 using BlazorCleanArchitecture.UI.Components;
-using CleanArchitectureBlazor.Application;
+using CleanArchitectureBlazor.Application.Service;
 using CleanArchitectureBlazor.Infrastructure.Service;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +8,7 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
+
 
 var app = builder.Build();
 

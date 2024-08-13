@@ -1,9 +1,9 @@
-﻿using CleanArchitectureBlazor.Infrastructure.Database;
-using CleanArchitectureBlazor.Domain.Service_Price;
+﻿using CleanArchitectureBlazor.Domain.Interfaces;
+using CleanArchitectureBlazor.Infrastructure.Database;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
-    public class PriceServiceRepository
+    public class PriceServiceRepository : IPriceServiceRepository
     {
         private readonly CleanArchitectureBlazorDbContext _context;
         public PriceServiceRepository(CleanArchitectureBlazorDbContext context)
@@ -31,7 +31,7 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
         {
             try
             {
-                var findId = GetById(id);
+                var findId = await GetById(id);
                 if (findId == null)
                 {
                     throw new KeyNotFoundException($"Rekord o podanym {id} nie został znaleziony");

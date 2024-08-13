@@ -1,9 +1,10 @@
-﻿using CleanArchitectureBlazor.Domain.Price_Training;
+﻿using CleanArchitectureBlazor.Domain.Interfaces;
+using CleanArchitectureBlazor.Domain.Price_Training;
 using CleanArchitectureBlazor.Infrastructure.Database;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
-    public class PriceTrainRepository
+    public class PriceTrainRepository : IPriceTrainRepository
     {
         private readonly CleanArchitectureBlazorDbContext _context;
         public PriceTrainRepository(CleanArchitectureBlazorDbContext context)
@@ -30,7 +31,7 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
         {
             try
             {
-                var findId = GetById(id);
+                var findId = await GetById(id);
                 if (findId == null)
                 {
                     throw new KeyNotFoundException($"Nie znaleziono rekordu o podanyn {id}");
@@ -43,6 +44,19 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
                 throw new InvalidOperationException($"Nie udało się usunąć rekordu");
             }
         }
+        public async Task Create(Train createTrain)
+        {
+            try
+            {
+                _context.Add(createTrain);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Nieoczekiwany błąd przy tworzeniu szkolenia", ex);
+            }
+        }
+
         public async Task Update(Guid id,Train updated)
         {
             try
@@ -55,9 +69,9 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
                 }
                 else
                 {
-                    findId.Name = updated.Name; //to do: mapowanie na dto 
-                    findId.Price = updated.Price;//to do: mapowanie na dto 
-                    findId.Category = updated.Category;//to do: mapowanie na dto 
+                    findId.Name = updated.Name; 
+                    findId.Price = updated.Price;
+                    findId.Category = updated.Category;
                 }
                 _context.SaveChanges();
             }

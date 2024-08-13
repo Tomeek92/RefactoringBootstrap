@@ -1,9 +1,10 @@
-﻿using CleanArchitectureBlazor.Domain.NewsLetterEmails;
+﻿using CleanArchitectureBlazor.Domain.Interfaces;
+using CleanArchitectureBlazor.Domain.NewsLetterEmails;
 using CleanArchitectureBlazor.Infrastructure.Database;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
-    public class NewsLetterEmailRepository
+    public class NewsLetterEmailRepository : INewsLetterEmailRepository
     {
         private readonly CleanArchitectureBlazorDbContext _context;
         public NewsLetterEmailRepository(CleanArchitectureBlazorDbContext context)
@@ -38,7 +39,7 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
         {
             try
             {
-                var findEmail = GetById(id);
+                var findEmail = await GetById(id);
                 if (findEmail == null)
                 {
                     throw new KeyNotFoundException($"Rekord o danym {id} nie został znaleziony ");

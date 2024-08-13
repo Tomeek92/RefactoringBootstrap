@@ -1,11 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CleanArchitectureBlazor.Domain.Admin
+namespace CleanArchitectureBlazor.Application.Dto
 {
-    public class Account
+    public class AccountDto
     {
-        [Key]
-        public Guid Id { get; set; }
         [Required]
         public string AdminName { get; set; } = null!;
         [Required]
