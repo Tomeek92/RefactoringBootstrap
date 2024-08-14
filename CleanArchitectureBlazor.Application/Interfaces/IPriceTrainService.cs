@@ -7,7 +7,7 @@ namespace CleanArchitectureBlazor.Application.Interfaces
     {
         Task Create(TrainDto createTrain);
         Task Delete(Guid id);
-        Task<Train> GetById(Guid id);
-        Task Update(Guid id, TrainDto updated);
+        Task<TrainDto> GetById(Guid id);
+        Task Update(TrainDto updateTrainDto);
     }
 }

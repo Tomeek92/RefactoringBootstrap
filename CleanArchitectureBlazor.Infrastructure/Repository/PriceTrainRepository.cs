@@ -1,6 +1,7 @@
 ﻿using CleanArchitectureBlazor.Domain.Interfaces;
 using CleanArchitectureBlazor.Domain.Price_Training;
 using CleanArchitectureBlazor.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
@@ -48,36 +49,34 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
         {
             try
             {
+                bool existingTrain = await _context.Trains.AnyAsync(t => t.Name == createTrain.Name);
+                if (existingTrain)
+                {
+                    throw new Exception($"Szkolenie o podanej nazwie {createTrain.Name} już istnieje!");
+                }
                 _context.Add(createTrain);
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Nieoczekiwany błąd przy tworzeniu szkolenia", ex);
+                throw new Exception($"Błąd podczas tworzenia szkolenia", ex);
             }
         }
-
-        public async Task Update(Guid id,Train updated)
+        public async Task Update(Train train)
         {
             try
             {
-                var findId = await GetById(id);
-
-                if (findId == null)
+                var existingTrain = await _context.FindAsync<Train>(train.Id);
+                if (existingTrain == null)
                 {
-                    throw new KeyNotFoundException($"Nie znaleziono rekordu o podanym Id {id}");
+                    throw new Exception($"Nie znaleziono szkolenia o podanym numerze{train.Id}");
                 }
-                else
-                {
-                    findId.Name = updated.Name; 
-                    findId.Price = updated.Price;
-                    findId.Category = updated.Category;
-                }
-                _context.SaveChanges();
+                _context.Trains.Update(train);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
-                throw new Exception($"Nieoczekiwany błąd");
+                throw new Exception($"Nieoczekiwany błąd przy aktualizowaniu rekordu",ex);
             }
         }
     }

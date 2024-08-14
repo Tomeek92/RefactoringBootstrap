@@ -6,7 +6,7 @@ namespace CleanArchitectureBlazor.Domain.Interfaces
     {
         Task<Train> GetById(Guid id);
         Task Delete(Guid id);
-        Task Update(Guid id, Train updated);
+        Task Update(Train train);
         Task Create(Train createTrain);
     }
 }

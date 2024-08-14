@@ -6,6 +6,7 @@ namespace CleanArchitectureBlazor.Application.Interfaces
     {
         Task Create(ServiceDto createService);
         Task Delete(Guid id);
-        Task<Domain.Service_Price.Service> GetById(Guid id);
+        Task<ServiceDto> GetById(Guid id);
+        Task Update(ServiceDto updateService);
     }
 }

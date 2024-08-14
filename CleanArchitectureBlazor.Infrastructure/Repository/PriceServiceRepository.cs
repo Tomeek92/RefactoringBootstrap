@@ -1,5 +1,6 @@
 ﻿using CleanArchitectureBlazor.Domain.Interfaces;
 using CleanArchitectureBlazor.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
@@ -15,7 +16,7 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
             try
             {
                 var findId = await _context.FindAsync<Domain.Service_Price.Service>(id);
-                
+
                 if (findId == null)
                 {
                     throw new KeyNotFoundException($"Rekord o identyfikatorze {id} nie został znaleziony.");
@@ -44,16 +45,40 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
                 throw new InvalidOperationException($"Nieoczekiwany błąd podczas usuwania");
             }
         }
-        public async Task Create (Domain.Service_Price.Service service)
+        public async Task Create(Domain.Service_Price.Service service)
         {
             try
             {
+                bool existingService = await _context.Services.AnyAsync(t => t.Name == service.Name);
+                if (existingService)
+                {
+                    throw new Exception($"Rekord o podanej nazwie {service.Name} już istnieje!");
+                }
                 var addService = _context.Add(service);
                 await _context.SaveChangesAsync();
             }
-            catch
+            catch (Exception ex)
             {
-                throw new InvalidCastException($"Nieoczekiwany błąd zgłoś się do administratora");
+                {
+                    throw new Exception($"Błąd podczas tworzenia usługi", ex);
+                }
+            }
+        }
+        public async Task Update (Domain.Service_Price.Service service)
+        {
+            try
+            {
+                var existingService = await _context.FindAsync<Domain.Service_Price.Service>(service.Id);
+                if (existingService == null)
+                {
+                    throw new Exception($"Nie znaleziono usługi o podanym {service.Id}");
+                }
+                _context.Services.Update(service);
+                await _context.SaveChangesAsync();
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("Nieoczekiwany błąd przy aktualizacji rekordu",ex);
             }
         }
     }

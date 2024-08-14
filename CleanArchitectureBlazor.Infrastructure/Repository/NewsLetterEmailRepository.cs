@@ -1,6 +1,7 @@
 ﻿using CleanArchitectureBlazor.Domain.Interfaces;
 using CleanArchitectureBlazor.Domain.NewsLetterEmails;
 using CleanArchitectureBlazor.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitectureBlazor.Infrastructure.Repository
 {
@@ -15,6 +16,11 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
         {
             try
             {
+                bool existingEmail = await _context.NewsLetterEmails.AnyAsync(t => t.Email == email.Email);  
+                if (existingEmail)
+                {
+                    throw new Exception($"Podany {email.Email} już istnieje!");
+                }
                 _context.Add(email);
                 await _context.SaveChangesAsync();
             }
@@ -52,6 +58,5 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
                 throw new InvalidOperationException($"Błąd przy usuwaniu rekordu o podanym ID {id}", ex);
             }           
         }
-
     }
 }

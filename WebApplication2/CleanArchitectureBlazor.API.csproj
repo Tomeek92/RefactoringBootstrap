@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CleanArchitectureBlazor.Application\CleanArchitectureBlazor.Application.csproj" />
+    <ProjectReference Include="..\CleanArchitectureBlazor.Infrastructure\CleanArchitectureBlazor.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

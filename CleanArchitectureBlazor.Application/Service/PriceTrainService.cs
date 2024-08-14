@@ -26,16 +26,17 @@ namespace CleanArchitectureBlazor.Application.Service
             await _priceTrainRepository.Delete(id);
         }
 
-        public async Task<Train> GetById(Guid id)
+        public async Task<TrainDto> GetById(Guid id)
         {
            var findId = await _priceTrainRepository.GetById(id);
-           return findId;
+           var mapp = _mapper.Map<TrainDto>(id);
+           return mapp;
         }
 
-        public async Task Update(Guid id, TrainDto updatedDto)
+        public async Task Update(TrainDto updatedDto)
         {
             var updated = _mapper.Map<Train>(updatedDto);
-            await _priceTrainRepository.Update(id, updated);  
+            await _priceTrainRepository.Update(updated);  
         }
     }
 }

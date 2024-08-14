@@ -25,10 +25,11 @@ namespace CleanArchitectureBlazor.Application.Service
         {
            await _newsLetterEmailRepository.Delete(Id);
         }
-        public async Task<NewsLetterEmail> GetById(Guid id)
+        public async Task<NewsLetterEmailDto> GetById(Guid id)
         {
             var findId = await _newsLetterEmailRepository.GetById(id);
-            return findId;
+            var mapp = _mapper.Map<NewsLetterEmailDto>(id);
+            return mapp; 
         }
     }
 }
