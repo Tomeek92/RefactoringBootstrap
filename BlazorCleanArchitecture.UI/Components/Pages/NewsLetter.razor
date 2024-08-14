@@ -1,0 +1,57 @@
+﻿@page "/create-item"
+@using BlazorCleanArchitecture.UI.Service
+@using CleanArchitectureBlazor.Application.Dto
+@inject NewsLetterEmailServiceAPI newsLetterEmailServiceAPI
+<h3>NewsLetter</h3>
+
+<EditForm Model="@NewsLetterEmail" OnInvalidSubmit="@HandleValidSubmit">
+    <DataAnnotationsValidator/>
+    <ValidationSummary/>
+
+<div>
+    <label for="Email">Email</label>
+    <InputText id="Email" @bind-Value="NewsLetterEmail.Email" />
+</div>
+<button type="submit">Zapisz</button>
+</EditForm>
+
+@if (!string.IsNullOrEmpty(SuccessMessage))
+{
+    <div class="alert alert-success" role="alert">
+        @SuccessMessage
+    </div>
+}
+
+@if (!string.IsNullOrEmpty(ErrorMessage))
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+@code {
+    private NewsLetterEmailDto NewsLetterEmail { get; set; } = new NewsLetterEmailDto();
+    private string SuccessMessage { get; set; } 
+    private string ErrorMessage { get; set; }
+
+    public async Task HandleValidSubmit()
+    {
+        Console.WriteLine("Formularz został przesłany.");
+        try
+        {
+            await newsLetterEmailServiceAPI.Create(NewsLetterEmail);
+            SuccessMessage = $"Dodano twój Email do NewsLettera!!";
+            ErrorMessage = string.Empty;
+        }
+        catch (HttpRequestException ex)
+        {
+            SuccessMessage = string.Empty;
+            ErrorMessage = "Problem z połączeniem z serwerem. Skontaktuj się z administratorem.";
+        }
+        catch(Exception ex)
+        {
+            SuccessMessage = string.Empty;
+            ErrorMessage = $"Niepoprawnie dodano Email do Newslettera :( {ex.Message}";
+        }
+
+    }
+}

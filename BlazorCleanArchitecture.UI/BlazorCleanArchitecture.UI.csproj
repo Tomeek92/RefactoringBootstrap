@@ -7,7 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CleanArchitectureBlazor.Infrastructure\CleanArchitectureBlazor.Infrastructure.csproj" />
+    <ProjectReference Include="..\CleanArchitectureBlazor.Domain\CleanArchitectureBlazor.Domain.csproj" />
+    <ProjectReference Include="..\WebApplication2\CleanArchitectureBlazor.API.csproj" />
   </ItemGroup>
 
 </Project>

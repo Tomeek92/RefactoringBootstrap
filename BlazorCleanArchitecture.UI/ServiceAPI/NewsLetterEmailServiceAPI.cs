@@ -33,6 +33,4 @@ namespace BlazorCleanArchitecture.UI.Service
 
 
     }
-    }
-
 }
