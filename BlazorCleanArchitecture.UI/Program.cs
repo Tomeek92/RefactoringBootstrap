@@ -1,5 +1,5 @@
 using BlazorCleanArchitecture.UI.Components;
-using BlazorCleanArchitecture.UI.Service;
+using BlazorCleanArchitecture.UI.ServiceAPI;
 using CleanArchitectureBlazor.Application.Service;
 using CleanArchitectureBlazor.Infrastructure.Service;
 var builder = WebApplication.CreateBuilder(args);
@@ -9,13 +9,15 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddHttpClient();
-builder.Services.AddScoped<NewsLetterEmailServiceAPI>();
+
 builder.Services.AddHttpClient<NewsLetterEmailServiceAPI>(client =>
 {
-    client.BaseAddress = new Uri("http://localhost:7158");
+    client.BaseAddress = new Uri("https://localhost:7191");
 });
+builder.Services.AddScoped<NewsLetterEmailServiceAPI>();
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

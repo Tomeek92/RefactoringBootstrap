@@ -4,7 +4,8 @@ namespace CleanArchitectureBlazor.Application.Dto
 {
     public class NewsLetterEmailDto
     {
-        [EmailAddress(ErrorMessage = "Niepoprawny format emaila.")]
-        public string Email { get; set; } = null!;
+       
+        [EmailAddress(ErrorMessage = "Niepoprawny format adresu email.")]
+        public string? Email { get; set; } 
     }
 }

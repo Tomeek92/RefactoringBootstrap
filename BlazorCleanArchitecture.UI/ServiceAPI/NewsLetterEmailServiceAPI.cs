@@ -1,6 +1,6 @@
 ﻿using CleanArchitectureBlazor.Application.Dto;
 
-namespace BlazorCleanArchitecture.UI.Service
+namespace BlazorCleanArchitecture.UI.ServiceAPI
 {
     public class NewsLetterEmailServiceAPI
     {
@@ -13,8 +13,9 @@ namespace BlazorCleanArchitecture.UI.Service
 
         public async Task Create(NewsLetterEmailDto emailDto)
         {
-            var response = await _httpClient.PostAsJsonAsync("api/NewsLetterEmail", emailDto);
+            var response = await _httpClient.PostAsJsonAsync("https://localhost:7191/api/NewsLetterEmail", emailDto);
             response.EnsureSuccessStatusCode();
+
         }
         public async Task Delete(Guid id)
         {

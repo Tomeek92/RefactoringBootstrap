@@ -1,0 +1,52 @@
+﻿@page "/create-newsletter-email"
+@using BlazorCleanArchitecture.UI.ServiceAPI
+@using CleanArchitectureBlazor.Application.Dto
+@inject NewsLetterEmailServiceAPI NewsLetterEmailService
+@inject NavigationManager Navigation
+
+<h3>Create Newsletter Email</h3>
+
+<EditForm method="post" Model="emailDto" OnValidSubmit="HandleValidSubmit" FormName="Test">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <p>
+        <label>Email: </label>
+        <InputText @bind-Value="emailDto.Email" />
+        <ValidationMessage For="@(() => emailDto.Email)" />
+    </p>
+    <p>
+        <button type="submit">Save Email</button>
+    </p>
+</EditForm>
+
+@if (!string.IsNullOrWhiteSpace(message))
+{
+    <p>@message</p>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    public NewsLetterEmailDto emailDto { get; set; } = new ();
+    private string? message;
+    
+
+    private async Task HandleValidSubmit()
+    {
+        if (string.IsNullOrWhiteSpace(emailDto.Email))
+        {
+            message = "Email jest pusty!";
+            return;
+        }
+        try
+        {
+            await NewsLetterEmailService.Create(emailDto);
+            Navigation.NavigateTo("/success"); 
+        }
+        catch (Exception ex)
+        {
+            message = $"Wystąpił błąd: {ex.Message}";
+        }
+        Navigation.NavigateTo("/success-page");
+    }
+}

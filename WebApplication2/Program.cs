@@ -12,16 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowLocalhost",
-        builder =>
-        {
-            builder.WithOrigins("http://localhost:7158")
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
+
 
 var app = builder.Build();
 
