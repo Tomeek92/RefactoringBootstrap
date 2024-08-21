@@ -1,0 +1,50 @@
+﻿@page "/get-all-emails"
+@using CleanArchitectureBlazor.Domain.NewsLetterEmails
+@inject NewsLetterEmailServiceAPI NewsLetterEmailService
+@inject NavigationManager Navigation
+
+<h1>Lista zapisanych do newsLettera</h1>
+@if(emails == null)
+{
+    <h3>Ładowanie...</h3>
+}
+else if (!emails.Any())
+{
+    <p>Brak zapisanych emaili w bazie danych</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var email in emails)
+            {
+                <tr>
+                    <td>@email.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+@code {
+    [Parameter]
+    public IEnumerable<NewsLetterEmail> emails { get; set; }
+    private string message;
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            emails = await NewsLetterEmailService.GetAll();
+        }
+        catch(Exception ex)
+        {
+            message = $"Wystąpił błąd: {ex.Message}";
+        }
+
+    }
+
+}

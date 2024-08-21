@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="bootstrap" Version="5.3.3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CleanArchitectureBlazor.Domain\CleanArchitectureBlazor.Domain.csproj" />
     <ProjectReference Include="..\WebApplication2\CleanArchitectureBlazor.API.csproj" />
   </ItemGroup>

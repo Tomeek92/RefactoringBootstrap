@@ -20,33 +20,36 @@
     </p>
 </EditForm>
 
-@if (!string.IsNullOrWhiteSpace(message))
+@if (isSuccess)
 {
-    <p>@message</p>
+    <div class="alert alert-success">
+        Zapisałeś się do newsletter!
+    </div>
 }
-
+else if (!string.IsNullOrEmpty(message))
+{
+    <div class="alert alert-danger">
+        @message
+    </div>
+}
+<GetAllEmails />
 @code {
     [SupplyParameterFromForm]
     public NewsLetterEmailDto emailDto { get; set; } = new ();
     private string? message;
-    
+    private bool isSuccess;
+
 
     private async Task HandleValidSubmit()
     {
-        if (string.IsNullOrWhiteSpace(emailDto.Email))
-        {
-            message = "Email jest pusty!";
-            return;
-        }
         try
         {
             await NewsLetterEmailService.Create(emailDto);
-            Navigation.NavigateTo("/success"); 
+            isSuccess = true;
         }
         catch (Exception ex)
         {
             message = $"Wystąpił błąd: {ex.Message}";
         }
-        Navigation.NavigateTo("/success-page");
     }
 }

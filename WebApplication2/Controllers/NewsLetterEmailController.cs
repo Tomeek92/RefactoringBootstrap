@@ -1,5 +1,6 @@
 ﻿using CleanArchitectureBlazor.Application.Dto;
 using CleanArchitectureBlazor.Application.Interfaces;
+using CleanArchitectureBlazor.Domain.NewsLetterEmails;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureBlazor.API.Controllers
@@ -29,6 +30,12 @@ namespace CleanArchitectureBlazor.API.Controllers
            var findId = await _newsLetterEmailService.GetById(id);
            return findId;
 
+        }
+        [HttpGet]
+        public async Task<IEnumerable<NewsLetterEmail>> GetAll()
+        {
+           var emailsAll = await _newsLetterEmailService.GetAll();
+            return emailsAll;
         }
     }
 }

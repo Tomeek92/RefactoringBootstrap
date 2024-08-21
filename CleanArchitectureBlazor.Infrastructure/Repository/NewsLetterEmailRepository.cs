@@ -16,7 +16,7 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
         {
             try
             {
-                bool existingEmail = await _context.NewsLetterEmails.AnyAsync(t => t.Email == email.Email);  
+                bool existingEmail = await _context.NewsLetterEmails.AnyAsync(t => t.Email == email.Email);
                 if (existingEmail)
                 {
                     throw new Exception($"Podany {email.Email} już istnieje!");
@@ -38,7 +38,7 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
             }
             catch (Exception ex)
             {
-                throw new Exception($"Błąd przy pobieraniu z bazy danych rekordu",ex);
+                throw new Exception($"Błąd przy pobieraniu z bazy danych rekordu", ex);
             }
         }
         public async Task Delete(Guid id)
@@ -50,13 +50,26 @@ namespace CleanArchitectureBlazor.Infrastructure.Repository
                 {
                     throw new KeyNotFoundException($"Rekord o danym {id} nie został znaleziony ");
                 }
-                    _context.Remove(findEmail);
-                    await _context.SaveChangesAsync();
+                _context.Remove(findEmail);
+                await _context.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException($"Błąd przy usuwaniu rekordu o podanym ID {id}", ex);
-            }           
+            }
         }
+        public async Task<IEnumerable<NewsLetterEmail>> GetAll()
+        {
+            try
+            {
+                var allEmails = await _context.NewsLetterEmails.ToListAsync();
+                return allEmails;
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"Błąd przy pobieraniu listy {ex}");
+            }
+        }
+        
     }
 }

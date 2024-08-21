@@ -1,4 +1,5 @@
 ﻿using CleanArchitectureBlazor.Application.Dto;
+using CleanArchitectureBlazor.Domain.NewsLetterEmails;
 
 namespace BlazorCleanArchitecture.UI.ServiceAPI
 {
@@ -30,6 +31,15 @@ namespace BlazorCleanArchitecture.UI.ServiceAPI
                 throw new DirectoryNotFoundException($"Nie znaleziono obiektu o takim nr {id} skontaktuj się z administratoremm");
             }
             return findId;
+        }
+        public async Task<IEnumerable<NewsLetterEmail>> GetAll()
+        {
+            var emailsAll = await _httpClient.GetFromJsonAsync<IEnumerable<NewsLetterEmail>>("https://localhost:7191/api/NewsLetterEmail");
+            if (emailsAll == null)
+            {
+                throw new DirectoryNotFoundException($"Brak zapisanych e-mail do newslettera");
+            }
+            return emailsAll;
         }
 
 
