@@ -10,7 +10,7 @@ namespace CleanArchitectureBlazor.Infrastructure.DesignTime_DbContextFactory
         {
             var optionsBuilder = new DbContextOptionsBuilder<CleanArchitectureBlazorDbContext>();
 
-            optionsBuilder.UseSqlServer("Data Source=DESKTOP-JD2U15O\\MSSQLSERVER02;Database=BlazorCleanArchitecture;Integrated Security=True;TrustServerCertificate=True;");
+            optionsBuilder.UseSqlServer("");
 
             return new CleanArchitectureBlazorDbContext(optionsBuilder.Options);
         }
